@@ -18,6 +18,9 @@ TIME_RE = re.compile(r"^(\d+)\s*[｜|]\s*([0-9]+(?:\.[0-9]+)?)\s*[–—-]\s*([0
 COUNT_RE = re.compile(r"实际镜头数[：:]\s*(\d+)")
 DURATION_RE = re.compile(r"采用总时长[：:]\s*(?:约\s*)?([0-9]+(?:\.[0-9]+)?)\s*(?:秒|s)")
 CAMERA_TERMS_IN_ACTION = ("摄影机", "镜头推", "镜头拉", "镜头摇", "镜头移动", "运镜", "定镜", "推镜", "拉镜", "摇镜")
+EMOTIONAL_SPEECH_MARKERS = ("哭", "哽咽", "抽泣", "痛苦", "声嘶力竭", "歇斯底里", "迟疑", "犹豫", "悲痛", "崩溃")
+TRANSITION_HEADER = ["转场位置", "类型", "出点", "入点", "动机", "执行说明", "禁止"]
+TRANSITION_PAIR_RE = re.compile(r"^(\d+)\s*(?:→|->|—>|＞)\s*(\d+)$")
 
 
 @dataclass
@@ -70,6 +73,67 @@ def parse_rows(text: str, findings: list[Finding]) -> list[Row]:
     return rows
 
 
+def dialogue_load(sound_cell: str) -> tuple[int, bool] | None:
+    """Return audible Han-character count and emotional-state flag."""
+    if "：" not in sound_cell and ":" not in sound_cell:
+        return None
+    prefix, content = re.split(r"[：:]", sound_cell, maxsplit=1)
+    if any(label in prefix for label in ("音效", "字幕", "特写")):
+        return None
+    count = len(re.findall(r"[\u4e00-\u9fff]", content))
+    if not count:
+        return None
+    emotional = any(marker in sound_cell for marker in EMOTIONAL_SPEECH_MARKERS)
+    return count, emotional
+
+
+def validate_transition_appendix(text: str, rows: list[Row], findings: list[Finding]) -> None:
+    marker = "## 选择性转场设计"
+    if marker not in text:
+        return
+    section = text.split(marker, 1)[1]
+    if "## 下游交接附录（SDP-1.0）" in section:
+        section = section.split("## 下游交接附录（SDP-1.0）", 1)[0]
+    lines = section.splitlines()
+    header_index = next(
+        (index for index, line in enumerate(lines) if line.strip().startswith("|") and split_table_line(line) == TRANSITION_HEADER),
+        None,
+    )
+    if header_index is None:
+        findings.append(Finding("ERROR", "Selective-transition appendix is missing the exact seven-column header."))
+        return
+    seen: set[tuple[int, int]] = set()
+    valid_numbers = {row.number for row in rows}
+    transition_count = 0
+    for offset, line in enumerate(lines[header_index + 2 :], header_index + 3):
+        if not line.strip().startswith("|"):
+            if transition_count:
+                break
+            continue
+        cells = split_table_line(line)
+        if len(cells) != 7:
+            findings.append(Finding("ERROR", f"Transition appendix line {offset}: expected 7 cells, found {len(cells)}."))
+            continue
+        match = TRANSITION_PAIR_RE.match(cells[0])
+        if not match:
+            findings.append(Finding("ERROR", f"Transition appendix line {offset}: invalid boundary `{cells[0]}`."))
+            continue
+        outgoing, incoming = int(match.group(1)), int(match.group(2))
+        transition_count += 1
+        if outgoing not in valid_numbers or incoming not in valid_numbers:
+            findings.append(Finding("ERROR", f"Transition {outgoing:02d}→{incoming:02d} references a missing real shot."))
+        if incoming != outgoing + 1:
+            findings.append(Finding("ERROR", f"Transition {outgoing:02d}→{incoming:02d} must connect adjacent real shots."))
+        if (outgoing, incoming) in seen:
+            findings.append(Finding("ERROR", f"Duplicate transition boundary {outgoing:02d}→{incoming:02d}."))
+        seen.add((outgoing, incoming))
+        for index, value in enumerate(cells[1:], 1):
+            if not value:
+                findings.append(Finding("ERROR", f"Transition {outgoing:02d}→{incoming:02d}: `{TRANSITION_HEADER[index]}` is empty."))
+    if transition_count > max(3, (len(rows) - 1) // 2):
+        findings.append(Finding("WARN", "Designed transitions cover more than half of all cuts; confirm that ordinary cuts remain the default."))
+
+
 def validate(text: str) -> list[Finding]:
     findings: list[Finding] = []
     for field in REQUIRED_METADATA:
@@ -100,6 +164,18 @@ def validate(text: str) -> list[Finding]:
             findings.append(Finding("WARN", f"Shot {row.number:02d}: action column appears to contain camera language."))
         if row.cells[2] == "无" and re.search(r"[\u4e00-\u9fff]{2,}(?:走|跑|看|说|拿|推|拉|转身)", row.cells[3]):
             findings.append(Finding("WARN", f"Shot {row.number:02d}: character action appears while the people cell is `无`."))
+        speech = dialogue_load(row.cells[8])
+        if speech:
+            audible_chars, emotional = speech
+            rate = audible_chars / duration
+            error_limit = 4.2 if emotional else 5.5
+            warn_limit = 3.8 if emotional else 5.2
+            if rate > error_limit:
+                state = "emotional" if emotional else "ordinary"
+                findings.append(Finding("ERROR", f"Shot {row.number:02d}: {audible_chars} audible Chinese characters in {duration:g}s ({rate:.2f}/s) exceed the {state} delivery budget."))
+            elif rate > warn_limit:
+                state = "emotional" if emotional else "ordinary"
+                findings.append(Finding("WARN", f"Shot {row.number:02d}: {audible_chars} audible Chinese characters in {duration:g}s ({rate:.2f}/s) approach the {state} delivery limit; confirm source-supported pacing."))
 
     count_match = COUNT_RE.search(text)
     if count_match and rows and int(count_match.group(1)) != len(rows):
@@ -107,6 +183,8 @@ def validate(text: str) -> list[Finding]:
     duration_match = DURATION_RE.search(text)
     if duration_match and rows and abs(float(duration_match.group(1)) - rows[-1].end) > 0.01:
         findings.append(Finding("ERROR", f"Declared duration {duration_match.group(1)}s does not match final timecode {rows[-1].end:g}s."))
+
+    validate_transition_appendix(text, rows, findings)
 
     if "## 下游交接附录（SDP-1.0）" in text:
         appendix = text.split("## 下游交接附录（SDP-1.0）", 1)[1]
@@ -134,4 +212,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

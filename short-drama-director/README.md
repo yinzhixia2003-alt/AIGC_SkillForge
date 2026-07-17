@@ -9,6 +9,8 @@
 - 提取剧情节拍、人物目标、冲突和关键状态变化
 - 判断合镜与拆镜，建立 2-4 镜的小镜头组
 - 设计景别、角度、构图、运镜、声音和转场动机
+- 在锁定时码前计算台词自然说完所需时长，避免长台词挤入短镜头
+- 只在具备出点、入点和叙事动机的边界设计转场，其余保持普通切镜
 - 管理轴线、视线、运动方向、道具和画外压力
 - 将心理和情绪转为可表演动作
 - 输出固定九列表格和 SDP-1.0 下游交接附录
@@ -31,6 +33,8 @@ Copy-Item -Recurse short-drama-director "$HOME\.codex\skills\short-drama-directo
 ## 输出
 
 默认 `review` 模式输出规划信息和固定九列导演分镜。用于下游视频提示词转换时，选择 `handoff` 模式，额外生成 SDP-1.0 交接附录。
+
+当少数镜头边界确实需要设计转场时，可追加 `选择性转场设计` 表；它不增加真实镜头，也不改变九列表格。普通硬切不列入该表。
 
 ```markdown
 | 镜号+时间 | 场景 | 人物 | 动作描述 | 景别 | 拍摄角度 | 主画面描述 | 镜头运动 | 声音 / 台词 |
@@ -68,6 +72,7 @@ short-drama-director/
 │   ├── directing-workflow.md
 │   ├── continuity-axis.md
 │   ├── dialogue-action-sound.md
+│   ├── transition-design.md
 │   ├── output-contract.md
 │   └── interchange-schema.md
 ├── scripts/validate_storyboard.py
@@ -81,4 +86,3 @@ short-drama-director/
 ## 开源许可
 
 当前包未预设许可证。发布到 GitHub 前，请由仓库维护者选择并添加 `LICENSE` 文件。
-

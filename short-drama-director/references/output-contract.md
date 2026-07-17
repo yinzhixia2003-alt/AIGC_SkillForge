@@ -39,3 +39,6 @@
 - `镜头运动`: one principal camera behavior; default to `定镜`.
 - `声音 / 台词`: exact dialogue, OS/VO/phone/off-screen labels, environment, and necessary effects; use `无` when absent.
 
+## Optional selective-transition appendix
+
+Append `## 选择性转场设计` only when at least one cut boundary has a source-supported designed transition. Use the exact schema in `transition-design.md`. The appendix does not add real shots or change primary-table timecodes.

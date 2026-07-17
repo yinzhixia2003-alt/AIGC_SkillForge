@@ -2,14 +2,18 @@
 
 ## Dialogue coverage
 
-Keep source wording and punctuation. Estimate delivery before assigning time:
+Keep source wording and punctuation. Count only audible content, excluding speaker labels and performance parentheses, then estimate delivery before assigning time:
 
-- 35-49 Chinese characters: inspect whether at least two visual covers are needed;
-- 50-70: inspect whether at least three covers are needed;
-- above 70: normally distribute across real shots or segments;
-- an on-camera delivery above roughly 20 characters and 6 seconds needs visible performance change or alternate coverage.
+- Ordinary speech planning range: about 3.5-4.5 Chinese characters per second.
+- Crying, hesitation, grief, shock, or heavy emotional pauses: about 2.5-3.5 characters per second.
+- Source-supported urgent, shouted, or official delivery: no more than about 4.5-5.5 characters per second.
+- Add time for ellipses, sobs, breath resets, deliberate looks, prop operations, turns, and movement that cannot naturally occur under the line.
 
-Do not cut at every comma. Use scale change, a source-present prop/listener, blocking, or off-screen continuation. Never invent a listener or object.
+Use `audible characters / chosen delivery rate + required pauses and non-overlappable action` as the minimum beat duration. A change of visual cover does not make speech faster. For a continuous line split across shots, verify the combined duration rather than each fragment in isolation.
+
+Do not cut at every comma. Split at a change of thought, listener response, blocking phase, emotional turn, or source-present prop focus. Use scale change, a source-present prop/listener, blocking, or off-screen continuation. Never invent a listener or object.
+
+Before delivery, audit every row containing speech. If it exceeds the supported rate, lengthen it, distribute the unchanged line across motivated covers, or return a target-duration conflict. Never accelerate, paraphrase, or delete dialogue to make the table pass.
 
 ## Emotion physicalization
 
@@ -30,4 +34,3 @@ Enter through a source-supported physical trigger, use only supplied memory cont
 ## AI executability
 
 Reduce or split when a short shot combines three or more of: fast multi-person blocking, prop transfers, emotional reversal, large camera movement, long synced dialogue, or complex visual effect.
-

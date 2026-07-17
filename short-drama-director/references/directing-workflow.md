@@ -43,9 +43,13 @@ Fast action may use more cuts, but periodically re-establish positions, exits, o
 
 Check each character's hands, body motion, attention, gaze, mouth/dialogue, and held props. Split or simplify if the same resource must perform incompatible tasks.
 
+Complete a dialogue budget before finalizing the duration table. Count audible Chinese characters, select the delivery range from `dialogue-action-sound.md`, add source-required pauses, and add time for actions that cannot overlap intelligibly with speech. Recheck the combined duration when one line continues across several covers.
+
 ## Scene-transition motive
 
 Before a new scene, establish one source-supported motive: decision, movement, eyeline, sound, prop, line result, visible time-state change, or emotional consequence. Hard cuts and contrast cuts are valid when purposeful. Do not invent a bridge that erases an intentional rupture.
+
+Do not decorate every boundary. Run the selection test in `transition-design.md` and record only transitions whose exit anchor, entry anchor, and narrative purpose are all explicit.
 
 ## Director audit
 
@@ -54,4 +58,3 @@ For every neighboring pair, explain internally:
 `previous shot leaves a viewing need -> current shot answers/delays it -> current shot creates the next need`
 
 If this sentence cannot be completed, merge, delete, or redesign the cut.
-
