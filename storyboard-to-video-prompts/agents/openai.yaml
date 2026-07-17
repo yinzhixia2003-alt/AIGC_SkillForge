@@ -1,0 +1,5 @@
+interface:
+  display_name: "分镜转视频提示词"
+  short_description: "将确认导演分镜忠实转换为连续、可执行的逐镜 AI 视频提示词"
+  default_prompt: "使用 $storyboard-to-video-prompts 将以下导演分镜转换为逐镜视频生成提示词。"
+
