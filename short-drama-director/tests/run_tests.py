@@ -42,9 +42,26 @@ VALID = """交接协议：SDP-1.0
 | 02 | 询问 | 林岚发问 | 连续接续 | 看门 | 保持视线 | 门外回应 | 钥匙未动 |
 """
 
+COMPLEX_VALID = """交接协议：SDP-1.0
+预计自然时长：8秒
+采用总时长：8秒
+生成模式：review
+画幅：9:16
+整体风格：【待用户补充】
+实际镜头数：2
+拆镜策略说明：先用分层调度完成交接，再用POV回答视线目标。
+
+| 镜号+时间 | 场景 | 人物 | 动作描述 | 景别 | 拍摄角度 | 主画面描述 | 镜头运动 | 声音 / 台词 |
+|---|---|---|---|---|---|---|---|---|
+| 01｜00–05s | 会议室·日内 | 林岚、周野、顾城 | 林岚说完后停下；周野压低手中的文件，顾城在后景抬眼看向门口。 | 中景 | 斜侧面平视 | 林岚与周野分处前景左右，顾城已在中景中央，门口位于后景右侧。 | 焦点转移 | 林岚：“到此为止。”门外短促脚步声接近。 |
+| 02｜05–08s | 会议室·日内 | 无 | 关闭的门保持静止，门把轻微下压后停住。 | 近景 | 顾城主观平视 | 门把位于画面右侧，门缝保持关闭，视点高度与顾城站姿一致。 | 定镜 | 门把受力的轻响。 |
+"""
+
 
 def main() -> int:
     assert not [f for f in MODULE.validate(VALID) if f.level == "ERROR"]
+    complex_findings = MODULE.validate(COMPLEX_VALID)
+    assert not complex_findings, "multi-person staging and physically valid POV should remain valid"
     broken = VALID.replace("| 02｜03–06s", "| 03｜04–06s")
     errors = [f for f in MODULE.validate(broken) if f.level == "ERROR"]
     assert errors, "broken numbering/timecode should fail"

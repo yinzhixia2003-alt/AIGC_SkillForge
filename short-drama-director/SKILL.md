@@ -1,6 +1,6 @@
 ---
 name: short-drama-director
-description: Convert Chinese short-drama, AI comic-drama, film, web-novel adaptation, dialogue, suspense, action, and emotional scripts into elastic director storyboards with continuous timecodes, dialogue delivery budgets, selective motivated transitions, shot groups, staging, axis control, continuity ledgers, and AI-video-executable action loads. Use when Codex must direct or re-direct a script, decide where to split or combine shots, create a nine-column Markdown storyboard, design sparse transitions at suitable cut boundaries, diagnose directing or timing logic, or produce an SDP-1.0 handoff for a downstream video-prompt skill. Do not use merely to translate an already approved storyboard into model prompts.
+description: Convert Chinese short-drama, AI comic-drama, film, web-novel adaptation, dialogue, suspense, action, and emotional scripts into elastic director-decision storyboards with continuous timecodes, dialogue delivery budgets, multi-person and multi-layer staging, POV logic, selective motivated transitions, axis control, continuity ledgers, and downstream-executable action loads. Use when Codex must direct or re-direct a script, decide whether to combine, stage internally, or split shots, create a nine-column Markdown storyboard, design sparse transitions at suitable boundaries, diagnose directing or timing logic, or produce an SDP-1.0 handoff for a downstream video-prompt skill. Do not use merely to translate an already approved storyboard into model prompts.
 ---
 
 # Short Drama Director
@@ -12,13 +12,29 @@ Turn scripts into director decisions. Decide why each shot exists, what the audi
 - Preserve core events, relationships, motives, action results, emotional direction, necessary dialogue, and continuity-critical props.
 - Do not add new characters, relationships, events, decisive props, clues, screens, text, or plot results.
 - Use elastic shot density. Never force a fixed six-shot or fixed-15-second template.
-- Give every shot one primary information target, an executable action process, and a verifiable end state.
+- Give every shot one primary viewing task, an executable action process, and a verifiable end state. One viewing task may contain several people and sequential actions.
 - Make every cut earn new information, viewpoint, emotional landing, action result, spatial reveal, or execution stability.
 - Maintain eyeline, movement, axis, screen direction, prop ownership, doors, damage, crowds, off-screen pressure, and sound continuity.
 - Keep source dialogue exact unless the user explicitly authorizes rewriting.
 - Budget audible dialogue before locking timecodes. Visual coverage may change, but the total speaking time may not be compressed below a source-appropriate delivery.
 - Design transitions only at motivated boundaries. An unadorned hard cut is the default and needs no decorative effect.
+- Try stable composition, foreground/middle/background staging, blocking, sound handoff, or focus transfer before splitting a complex beat.
+- Treat generation stability as a final optimization constraint, never as permission to weaken plot logic, primary information, spatial continuity, or performance.
 - If the user does not supply a visual style, write `整体风格：【待用户补充】`; do not invent one.
+
+## Director decision priority
+
+Resolve conflicts in this order:
+
+1. Plot validity and character motive.
+2. Primary information and viewing-task clarity.
+3. Character relationship, space, axis, direction, and prop continuity.
+4. Emotional and performance progression.
+5. Rhythm and cut value.
+6. Visual expression and cinematic language.
+7. Generation stability.
+
+Never sacrifice the first five merely to add visual variety, reduce the number of people/actions, or make generation easier.
 
 ## Output modes
 
@@ -35,6 +51,7 @@ Read only what the task needs:
 | Need | Read |
 |---|---|
 | Beat analysis, elastic splitting, shot groups, transitions | `references/directing-workflow.md` |
+| Multi-person staging, internal focus transfer, POV, state/scene anchors, special shots | `references/staging-pov.md` |
 | Selective transition types, boundary tests, and appendix format | `references/transition-design.md` |
 | Axis, eyeline, direction, prop/crowd/state continuity | `references/continuity-axis.md` |
 | Dialogue, emotion, action, sound, flashback, AI action load | `references/dialogue-action-sound.md` |
@@ -45,17 +62,17 @@ Read only what the task needs:
 
 1. Identify scenes, time changes, characters, objectives, conflict, source dialogue, key props, and irreversible state changes.
 2. Mark the source facts and lines that must survive. Separate visible action from psychology.
-3. Count audible dialogue and estimate its natural delivery from performance state before assigning shot durations. Reserve additional time for required pauses and simultaneous actions.
-4. Estimate natural duration from dialogue and action; compare it with any user-specified duration. If the target is too short, report the conflict instead of compressing speech.
-5. Split the story into action, dialogue, reaction, prop, space, and emotional-turn beats.
-6. Give every beat one primary audience takeaway.
-7. Design a carrying shot first; add inserts only when they reveal necessary information, hide unstable action, or create a motivated cut.
-8. Apply the split/combine decision chain in `references/directing-workflow.md`.
+3. Split the story into action, dialogue, reaction, prop, space, and emotional-turn beats; classify each beat's primary, secondary, and background information.
+4. Count audible dialogue and estimate its natural delivery from performance state before assigning shot durations. Reserve additional time for required pauses and non-overlappable actions.
+5. Estimate natural duration from dialogue and action; compare it with any user-specified duration. If the target is too short, report the conflict instead of compressing speech.
+6. Design a carrying shot first; add inserts only when they reveal necessary information, hide unstable action, or create a motivated cut.
+7. For complex beats, try internal staging and focus transfer from `references/staging-pov.md` before splitting. Split only when core information competes, resources conflict, or the result cannot be read.
+8. Apply the combine -> internal staging -> carrying-plus-insert -> split decision chain in `references/directing-workflow.md`.
 9. Design 2-4-shot groups: observation, action, dialogue, suspense, or space.
-10. Build an internal axis and continuity ledger for each scene before assigning angles and screen direction.
+10. Build an internal axis and continuity ledger. For POV, lock observer position, facing, eyeline, target, knowledge boundary, and return reaction before assigning the angle.
 11. Test every boundary for a transition motive. Record only the suitable designed transitions using `references/transition-design.md`; leave the rest as ordinary hard cuts.
 12. Assign shot size, angle, composition, camera movement, duration, sound, and exact timecodes.
-13. Run a dialogue-load pass: every audible line must fit its combined assigned duration at the chosen delivery state without deleting words, rushing emotional pauses, or overloading action.
+13. Run dialogue-load, multi-person priority, POV, continuity, and special-shot audits. Verify that generation optimization did not override a higher-priority director decision.
 14. Run `scripts/validate_storyboard.py` and review warnings against the source before delivery.
 
 ## Elastic splitting rules
@@ -68,6 +85,8 @@ Read only what the task needs:
 - Use a planning baseline of roughly 3.5-4.5 Chinese characters per second for ordinary speech, 2.5-3.5 for crying, hesitation, grief, or heavy emotional pauses, and at most 4.5-5.5 for source-supported urgent/official delivery. These are planning ranges, not targets to fill.
 - Multiple coverage shots may carry one continuous line, but their combined timeline must still cover the natural delivery. Do not mistake more cuts for more speaking time.
 - When dialogue and visible action compete, either lengthen the beat, distribute the unchanged line across motivated covers, or simplify source-permitted secondary action.
+- Do not split merely because a shot contains several people or verbs. Keep them together when actions are ordered, share one result, and the composition controls viewing priority.
+- Prefer internal staging when foreground, middle ground, background, blocking, sound order, or focus transfer can hand attention from one established subject to another without competition.
 - Prefer a split when the primary subject, information, emotion, action phase, space, direction, prop state, or sound interpretation changes.
 - Prefer a combine when time, space, subject goal, viewing priority, and action result stay unified and the current composition can show them clearly.
 - Do not create separate shots for ordinary blinks, breaths, or micro-expressions that do not alter the beat.
@@ -114,6 +133,9 @@ For `handoff` mode, append the handoff table defined in `references/interchange-
 10. Keep off-screen speakers out of the `人物` column unless they are visible; identify them in `声音 / 台词`.
 11. Do not use text cards such as "翌日" as a substitute for a visual time transition unless the user explicitly requires them.
 12. Never add a dissolve, whip pan, flash, occlusion, match cut, or sound bridge without a source-supported exit and entry anchor.
+13. Never split solely because a shot contains multiple people, multiple verbs, or several depth layers.
+14. Never use POV from a position the observer cannot occupy, reveal information the observer cannot know, or omit the necessary return to reaction/action when it carries the result.
+15. Never use mirrors, orbits, spins, whip pans, rapid focus changes, or other special shots solely to enrich camera language.
 
 ## Validation
 

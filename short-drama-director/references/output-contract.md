@@ -35,7 +35,7 @@
 - `动作描述`: performance and physical action; no camera/light language.
 - `景别`: one readable scale.
 - `拍摄角度`: viewpoint and elevation.
-- `主画面描述`: light, blocking, composition, space, prop/state continuity; not the full action process.
+- `主画面描述`: light, foreground/middle/background blocking, composition, functional space/route, and prop/state continuity; not the full action process.
 - `镜头运动`: one principal camera behavior; default to `定镜`.
 - `声音 / 台词`: exact dialogue, OS/VO/phone/off-screen labels, environment, and necessary effects; use `无` when absent.
 

@@ -33,4 +33,8 @@ Enter through a source-supported physical trigger, use only supplied memory cont
 
 ## AI executability
 
-Reduce or split when a short shot combines three or more of: fast multi-person blocking, prop transfers, emotional reversal, large camera movement, long synced dialogue, or complex visual effect.
+Judge conflicts, not category count. A shot may contain multiple people and sequential actions when they share one viewing task, remain spatially readable, and finish in a verifiable result. First reduce secondary motion, order actions, use depth/blocking, or transfer focus internally.
+
+Reduce, lengthen, or split only when core actions must be understood simultaneously, body/hand/prop resources conflict, a critical reaction or result becomes unreadable, or dialogue cannot fit its natural delivery. Generation stability is a final optimization constraint, not the highest directing priority.
+
+For lip-synced dialogue, keep the speaker visible when the delivery itself matters and lower competing movement. Do not combine long synced speech with hard running, fighting, heavy panting, fine hand work, or a major emotional reversal unless time and ordered blocking make both readable.

@@ -12,6 +12,8 @@ Design a transition only when all three are true:
 
 If any answer is no, keep the ordinary cut. Never add a transition merely for polish or variety.
 
+When a designed transition is justified, test the least ornamental source-supported candidate in this order: action continuity, sound lead/tail, eyeline, prop/state, graphic/shape/direction match, emotional contrast, then explicit hard cut. This is not a requirement to soften every boundary; an unrelated or intentionally ruptured segment should cut directly.
+
 ## Allowed families
 
 - Eyeline match: observer's established gaze -> target reveal.

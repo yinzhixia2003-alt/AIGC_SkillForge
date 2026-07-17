@@ -18,6 +18,14 @@ Change the axis only through a neutral re-establishing shot, visible character r
 
 Across a cut, preserve the same hand/foot, direction, speed trend, contact point, progress, and visible result. Never repeat the action start.
 
+## Critical continuity actions
+
+Show explicitly, or uniquely confirm immediately afterward, any action that changes a critical prop's owner, hand, quantity, or location; opens/closes a door or vehicle; changes light, damage, route, or access; moves a person into a new space; or establishes evidence, setup, or a later plot prerequisite. Ordinary walking, turning, blinking, and already-implied transitions may be omitted.
+
+## POV continuity
+
+Before a subjective shot, lock the observer's position, body facing, eyeline, target position, and knowledge boundary. The POV camera can only occupy a physically possible viewing position and reveal what the observer can perceive. After the POV, return to the observer's reaction, action result, or a newly established spatial relation when that response carries narrative value. See `staging-pov.md` for detailed selection rules.
+
 ## Crowd and threat layering
 
 New people or threats join the current layout; they do not replace active earlier people. In close-ups, retain pressure through frame edge, background, off-screen sound, or the next spatial re-anchor.
@@ -25,4 +33,3 @@ New people or threats join the current layout; they do not replace active earlie
 ## Scene changes
 
 New scenes reset physical continuity but may carry source-supported state such as a held prop, injury, wetness, decision, or emotional consequence. Do not carry old-room sounds, furniture, screen direction, or light into an unrelated space.
-
