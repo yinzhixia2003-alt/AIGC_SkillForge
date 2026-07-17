@@ -40,7 +40,6 @@ Read only what the task needs:
 | Dialogue, emotion, action, sound, flashback, AI action load | `references/dialogue-action-sound.md` |
 | Exact table fields, metadata, modes, examples | `references/output-contract.md` |
 | Chaining to a downstream prompt skill | `references/interchange-schema.md` |
-| Full author-supplied V4.4 methodology | `references/original-spec-v4.4.md` |
 
 ## Workflow
 

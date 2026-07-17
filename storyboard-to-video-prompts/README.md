@@ -80,7 +80,6 @@ storyboard-to-video-prompts/
 ├── README.md
 ├── agents/openai.yaml
 ├── references/
-│   ├── original-spec-v2.1.md
 │   ├── translation-workflow.md
 │   ├── continuity-assets.md
 │   ├── platform-risk.md
@@ -92,9 +91,8 @@ storyboard-to-video-prompts/
 
 ## 方法来源
 
-核心方法整理自仓库维护者提供的《分镜转视频提示词 Skill（自然成片执行版 V2.1）》。完整原始版本保存在 `references/original-spec-v2.1.md`。
+核心方法整理自仓库维护者提供的《分镜转视频提示词 Skill（自然成片执行版 V2.1）》，并已提炼为本技能所需的翻译、资产连续性、平台风险和输出规范。原始方法全文不随开源包发布。
 
 ## 开源许可
 
 当前包未预设许可证。发布到 GitHub 前，请由仓库维护者选择并添加 `LICENSE` 文件。
-

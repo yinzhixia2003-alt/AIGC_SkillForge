@@ -47,7 +47,6 @@ If two authoritative inputs remain incompatible, stop that shot and return a con
 | Platform limits, high-risk shots, and return-to-director rules | `references/platform-risk.md` |
 | Exact five-block output and prompt line format | `references/output-contract.md` |
 | SDP-1.0 upstream handoff | `references/interchange-schema.md` |
-| Full author-supplied V2.1 methodology | `references/original-spec-v2.1.md` |
 
 ## Workflow
 
@@ -119,4 +118,3 @@ python scripts/validate_video_prompts.py prompts.md --storyboard approved-storyb
 ```
 
 A final package requires zero structural errors. Review warnings against the approved director source rather than changing it automatically.
-

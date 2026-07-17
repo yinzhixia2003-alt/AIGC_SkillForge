@@ -68,7 +68,6 @@ short-drama-director/
 ├── README.md
 ├── agents/openai.yaml
 ├── references/
-│   ├── original-spec-v4.4.md
 │   ├── directing-workflow.md
 │   ├── continuity-axis.md
 │   ├── dialogue-action-sound.md
@@ -81,7 +80,7 @@ short-drama-director/
 
 ## 方法来源
 
-核心方法整理自仓库维护者提供的《导演分镜脚本生成 Skill（短剧弹性拆镜·导演思维强化版 V4.4）》。完整原始版本保存在 `references/original-spec-v4.4.md`。
+核心方法整理自仓库维护者提供的《导演分镜脚本生成 Skill（短剧弹性拆镜·导演思维强化版 V4.4）》，并已提炼为本技能所需的工作流、连续性、对白、转场和输出规范。原始方法全文不随开源包发布。
 
 ## 开源许可
 
