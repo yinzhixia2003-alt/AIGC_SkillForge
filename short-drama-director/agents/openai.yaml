@@ -1,0 +1,5 @@
+interface:
+  display_name: "短剧弹性拆镜导演"
+  short_description: "将剧本转成连续、可执行且适配 AI 视频的导演分镜"
+  default_prompt: "使用 $short-drama-director 将以下剧本拆成连续、可执行的导演分镜。"
+
